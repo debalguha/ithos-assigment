@@ -62,4 +62,9 @@ public class Location extends BaseModel {
 		return id;
 	}
 
+	@Override
+	public Object getPk() {
+		return getId();
+	}
+
 }

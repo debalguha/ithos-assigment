@@ -8,9 +8,9 @@ import javax.persistence.Query;
 import javax.sql.DataSource;
 
 import org.ithos.assignment.persistence.model.Animal;
-import org.ithos.assignment.persistence.model.AnimalLocation;
 import org.ithos.assignment.persistence.model.BaseModel;
 import org.ithos.assignment.persistence.model.Location;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AnimalDelegateImpl implements AnimalDelegate{
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+	@Autowired
 	private DataSource dataSource;
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class)
@@ -33,7 +33,7 @@ public class AnimalDelegateImpl implements AnimalDelegate{
 	}
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class)
 	public void deleteModel(BaseModel model) {
-		entityManager.remove(model);
+		entityManager.remove(entityManager.find(model.getClass(), model.getPk()));
 	}
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor=Throwable.class, readOnly = true)
 	public Animal findAnimalByCodeNumUsingJPA(long codeNum) {

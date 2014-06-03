@@ -20,6 +20,8 @@ public interface AnimalDelegate {
 	public void updateModel(BaseModel model);
 	public void deleteModel(BaseModel model);
 	public Animal findAnimalByCodeNum(long codeNum);
+	public Animal findAnimalByCodeNumUsingJPA(long codeNum);
 	public List<Animal> findAnimalByName(String name);
+	public List<Animal> findAnimalByNameUsingJPA(String name);
 	public Location findLocationByName(String location);
 }

@@ -41,6 +41,10 @@ public class Dog extends Animal {
 	public boolean equals(Object obj) {
 		return super.equals(obj);
 	}
+	@Override
+	public Object getPk() {
+		return getCodeNumber();
+	}
 	
 	
 }

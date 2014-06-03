@@ -7,4 +7,6 @@ package org.ithos.assignment.persistence.model;
  * to all entities.
  */
 
-public abstract class BaseModel {}
+public abstract class BaseModel {
+	public abstract Object getPk();
+}
