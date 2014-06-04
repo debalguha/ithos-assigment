@@ -28,7 +28,14 @@ public class AnimalDelegateImplTest extends BaseTestCase{
 	}
 	@Test
 	public void shouldBeAbleToInsertAnimal() throws Exception{
-		currentAnimal = createAnAnimal(delegate);
+		currentAnimal = createAnAnimal(delegate, RandomUtils.nextInt());
+		assertNotNull(currentAnimal);
+		assertNotNull(delegate.findAnimalByCodeNumUsingJPA(currentAnimal.getCodeNumber()));
+	}
+	@Test
+	public void shouldBeAbleToInsert10Animals() throws Exception{
+		for(int i=0;i<=10;i++)
+			currentAnimal = createAnAnimal(delegate, i);
 		assertNotNull(currentAnimal);
 		assertNotNull(delegate.findAnimalByCodeNumUsingJPA(currentAnimal.getCodeNumber()));
 	}
@@ -38,9 +45,9 @@ public class AnimalDelegateImplTest extends BaseTestCase{
 			delegate.deleteModel(currentAnimal);
 		currentAnimal = null;
 	}
-	public Animal createAnAnimal(AnimalDelegate delegate){
+	public Animal createAnAnimal(AnimalDelegate delegate, int diff){
 		Set<AnimalLocation> animalLocations = Sets.newHashSet();
-		Animal animal = new Dog(RandomUtils.nextLong(), "Google", AnimalType.MAMMAL, null, "Labrador", 2.44d);
+		Animal animal = new Dog(RandomUtils.nextLong(), "Google-"+diff, AnimalType.MAMMAL, null, "Labrador", RandomUtils.nextDouble());
 		for(String location : locationNames){
 			Location locatonModel = delegate.findLocationByName(location);
 			AnimalLocation animalLocation = new AnimalLocation();
@@ -55,7 +62,7 @@ public class AnimalDelegateImplTest extends BaseTestCase{
 	}
 	@Test
 	public void shouldBeAbleTofindAnimalByName() throws Exception{
-		currentAnimal = createAnAnimal(delegate);
+		currentAnimal = createAnAnimal(delegate, RandomUtils.nextInt());
 		List<Animal> animals = delegate.findAnimalByNameUsingJPA(currentAnimal.getName());
 		assertNotNull(animals);
 		assertFalse(animals.isEmpty());

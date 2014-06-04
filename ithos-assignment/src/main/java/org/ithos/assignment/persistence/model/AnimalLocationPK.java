@@ -6,15 +6,19 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @SuppressWarnings("serial")
 @Embeddable
 public class AnimalLocationPK implements Serializable{
-	@ManyToOne
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Animal animal;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Location location;
 
+	@JsonIgnore
 	public Animal getAnimal() {
 		return animal;
 	}

@@ -19,6 +19,8 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.google.common.collect.Sets;
+
 @Entity
 @Table(name="animal", uniqueConstraints={
 		@UniqueConstraint(columnNames={"name"})
@@ -39,7 +41,9 @@ public abstract class Animal extends BaseModel{
 	@Cascade(CascadeType.ALL)
 	private Set<AnimalLocation> animalLocations;
 
-	public Animal() {}
+	public Animal() {
+		animalLocations = Sets.newHashSet();
+	}
 
 	public Animal(long codeNumber, String name, AnimalType type, Set<AnimalLocation> animalLocations) {
 		super();
@@ -47,6 +51,8 @@ public abstract class Animal extends BaseModel{
 		this.name = name;
 		this.type = type;
 		this.animalLocations = animalLocations;
+		if(this.animalLocations == null)
+			animalLocations = Sets.newHashSet();
 	}
 	
 	public long getCodeNumber() {
