@@ -4,15 +4,19 @@ import java.util.Set;
 
 import org.ithos.assignment.persistence.model.AnimalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Animal {
-	private long codeNumber;
+	private int codeNumber;
 	private String name;
 	private AnimalType type;
 	private Set<String> animalLocations;
-	public long getCodeNumber() {
+	@JsonIgnore
+	private Class<?> entityClass;
+	public int getCodeNumber() {
 		return codeNumber;
 	}
-	public void setCodeNumber(long codeNumber) {
+	public void setCodeNumber(int codeNumber) {
 		this.codeNumber = codeNumber;
 	}
 	public String getName() {
@@ -33,12 +37,19 @@ public class Animal {
 	public void setAnimalLocations(Set<String> animalLocations) {
 		this.animalLocations = animalLocations;
 	}
-	public Animal(long codeNumber, String name, AnimalType type, Set<String> animalLocations) {
+	public Animal(int codeNumber, String name, AnimalType type, Set<String> animalLocations, Class<?> entityClass) {
 		super();
 		this.codeNumber = codeNumber;
 		this.name = name;
 		this.type = type;
 		this.animalLocations = animalLocations;
+		this.entityClass = entityClass;
 	}
 	public Animal(){}
+	public Class<?> getEntityClass() {
+		return entityClass;
+	}
+	public void setEntityClass(Class<?> entityClass) {
+		this.entityClass = entityClass;
+	}
 }

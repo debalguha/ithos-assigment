@@ -3,7 +3,7 @@ package org.ithos.assignment.persistence.test;
 import java.util.List;
 
 import org.apache.commons.lang.math.RandomUtils;
-import org.ithos.assignment.persistence.AnimalDelegate;
+import org.ithos.assignment.persistence.JPAAnimalDelegate;
 import org.ithos.assignment.persistence.model.Location;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -27,7 +27,7 @@ public class BaseTestCase {
 		Location india = new Location("India-"+randomInteger);
 		Location germany = new Location("Germany-"+randomInteger);
 		Location uk = new Location("UK-"+randomInteger);
-		AnimalDelegate delegate = (AnimalDelegate)rootCtx.getBean(AnimalDelegate.class);
+		JPAAnimalDelegate delegate = (JPAAnimalDelegate)rootCtx.getBean(JPAAnimalDelegate.class);
 		delegate.insertModel(india);
 		delegate.insertModel(germany);
 		delegate.insertModel(uk);

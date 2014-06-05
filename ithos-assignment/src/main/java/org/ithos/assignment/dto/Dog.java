@@ -8,8 +8,8 @@ public class Dog extends Animal{
 	private String breed;
 	private double pawSize;
 	public Dog(){}
-	public Dog(long codeNumber, String name, AnimalType type, Set<String> animalLocations, String breed, double pawSize) {
-		super(codeNumber, name, type, animalLocations);
+	public Dog(int codeNumber, String name, AnimalType type, Set<String> animalLocations, String breed, double pawSize, Class<?> entityClass) {
+		super(codeNumber, name, type, animalLocations, entityClass);
 		this.breed = breed;
 		this.pawSize = pawSize;
 	}

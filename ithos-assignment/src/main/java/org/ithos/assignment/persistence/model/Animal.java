@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
 public abstract class Animal extends BaseModel{
 	@Id
 	@Column(name="code_number")
-	private long codeNumber;
+	private int codeNumber;
 	@Column(name="name")
 	private String name;
 	@Column(name="type", nullable = false)
@@ -45,7 +45,7 @@ public abstract class Animal extends BaseModel{
 		animalLocations = Sets.newHashSet();
 	}
 
-	public Animal(long codeNumber, String name, AnimalType type, Set<AnimalLocation> animalLocations) {
+	public Animal(int codeNumber, String name, AnimalType type, Set<AnimalLocation> animalLocations) {
 		super();
 		this.codeNumber = codeNumber;
 		this.name = name;
@@ -55,11 +55,11 @@ public abstract class Animal extends BaseModel{
 			animalLocations = Sets.newHashSet();
 	}
 	
-	public long getCodeNumber() {
+	public int getCodeNumber() {
 		return codeNumber;
 	}
 
-	public void setCodeNumber(long codeNumber) {
+	public void setCodeNumber(int codeNumber) {
 		this.codeNumber = codeNumber;
 	}
 

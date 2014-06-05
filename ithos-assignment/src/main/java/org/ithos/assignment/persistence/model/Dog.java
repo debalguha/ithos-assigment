@@ -16,7 +16,7 @@ public class Dog extends Animal {
 	@Column(name="paw_size", nullable=true)
 	private double pawSize;
 	public Dog() {}
-	public Dog(long codeNumber, String name, AnimalType type, Set<AnimalLocation> animalLocations, String breed, double pawSize) {
+	public Dog(int codeNumber, String name, AnimalType type, Set<AnimalLocation> animalLocations, String breed, double pawSize) {
 		super(codeNumber, name, type, animalLocations);
 		this.breed = breed;
 		this.pawSize = pawSize;

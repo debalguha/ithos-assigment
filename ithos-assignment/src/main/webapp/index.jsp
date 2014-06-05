@@ -40,14 +40,14 @@
 <script type="text/javascript">
 	
 	var Dog = Backbone.Model.extend({});
-	var Dogs = Backbone.Collection.extend({
-		model: Dog,
+//	var Dogs = Backbone.Collection.extend({
+	var Dogs = Backbone.PageableCollection.extend({
+		model: Dog,	
 		localStorage: new Backbone.LocalStorage("dogs-creche")
 	});
-	var dogs = new Dogs({});
+	var dogs = new Dogs({ mode: "client" });
 	var LocationCell = Backgrid.Cell.extend({
 		render : function() {
-			alert(this.model.get('animalLocations'));
 			console.log(this.model.get('animalLocations'));
 			if (this.model.get('animalLocations') != null) {
 				var htmlComp = "";
@@ -66,7 +66,7 @@
 			name : "codeNumber", // The key of the model attribute
 			label : "Code Number", // The name to display in the header
 			editable : false, // By default every cell in a column is editable, but *ID* shouldn't be
-			cell : "number"
+			cell : "string"
 		}, {
 			name : "name",
 			label : "Name",
@@ -88,7 +88,7 @@
 			label : "Paw Size",
 			editable : false,
 			sortable : false,
-			cell : "number"
+			cell : "string"
 		}, {
 			name : "animalLocations",
 			label : "Location",
@@ -103,9 +103,9 @@
 		collection : dogs,
 		emptyText : "No Data"
 	});
-	/* 	var animalPaginator = new Backgrid.Extension.Paginator({
-	 collection: dogs
-	 }); */
+	var animalPaginator = new Backgrid.Extension.Paginator({
+		collection: dogs
+	 }); 
 	$(document).ready(function() {
 		$('#search-submit').click(function(event) {
 			$.post('controller', $('#searchForm').serialize(), function(data) {
@@ -114,15 +114,17 @@
 					console.log('added - ' + animal);
 					dogs.create(animal);
 				});
+				dogs.setPageSize(10);
 				$('#animalGrid').empty();
 				$('#animalGrid').append(animalGrid.render().$el);
+				$('#animslPaginator').append(animalPaginator.render().$el);
 			});
 		});
 	});
 
 	$('#animalGrid').empty();
 	$('#animalGrid').append(animalGrid.render().$el);
-	//$('#animslPaginator').append(animalPaginator.render().$el);
+	$('#animslPaginator').append(animalPaginator.render().$el);
 </script>
 <style>
 #header {

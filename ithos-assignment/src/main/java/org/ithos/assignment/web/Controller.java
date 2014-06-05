@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.ithos.assignment.dto.Animal;
 import org.ithos.assignment.dto.transformer.TransformerFactory;
-import org.ithos.assignment.persistence.AnimalDelegate;
-import org.ithos.assignment.persistence.model.Animal;
+import org.ithos.assignment.persistence.JPAAnimalDelegate;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,14 +22,13 @@ import com.google.common.collect.Lists;
 public class Controller extends HttpServlet{
 	
 	private ClassPathXmlApplicationContext ctx;
-	private AnimalDelegate delegate;
-	private TransformerFactory factory;
+	private JPAAnimalDelegate delegate;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-		delegate = ctx.getBean(AnimalDelegate.class);
-		factory = TransformerFactory.getInstance();
+		delegate = ctx.getBean(JPAAnimalDelegate.class);
+		TransformerFactory.getInstance();
 		super.init(config);
 	}
 	
@@ -49,7 +48,7 @@ public class Controller extends HttpServlet{
 		if(!StringUtils.isEmpty(code)){
 			Animal animal = null;
 			try {
-				animal = delegate.findAnimalByCodeNumUsingJPA(Long.parseLong(code));
+				animal = delegate.findAnimalByCodeNum(Integer.parseInt(code));
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				controllerResponse.setResponseType(ResponseType.ERROR);
@@ -65,7 +64,7 @@ public class Controller extends HttpServlet{
 		}else{
 			if(!StringUtils.isEmpty(name)){
 				try {
-					animals = delegate.findAnimalByNameUsingJPA(name);
+					animals = delegate.findAnimalByName(name);
 					controllerResponse.setResponseType(ResponseType.SUCCESS);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -74,25 +73,10 @@ public class Controller extends HttpServlet{
 				}
 			}
 		}
-		controllerResponse.setAnimals(convertToDTO(animals));
+		controllerResponse.setAnimals(animals);
 		response.setContentType("application/json");
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(response.getOutputStream(), controllerResponse);
 	}
 
-	private List<org.ithos.assignment.dto.Animal> convertToDTO(List<Animal> animals) {
-		if(animals == null)
-			return null;
-		List<org.ithos.assignment.dto.Animal> animalDtos = Lists.newArrayList();
-		/*for(Animal animal : animals){
-			Set<String> locations = Sets.newHashSet();
-			for(AnimalLocation animalLocation : animal.getAnimalLocations())
-				locations.add(animalLocation.getLocation().getPlace());
-			org.ithos.assignment.dto.Animal animalDto = new org.ithos.assignment.dto.Animal(animal.getCodeNumber(), animal.getName(), animal.getType(), locations);
-			animalDtos.add(animalDto);
-		}*/
-		for(Animal animal : animals)
-			animalDtos.add(factory.getTransformer(animal.getClass()).transform(animal));
-		return animalDtos;
-	}
 }
