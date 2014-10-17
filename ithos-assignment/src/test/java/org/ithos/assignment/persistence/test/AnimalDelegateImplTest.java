@@ -16,7 +16,6 @@ import org.ithos.assignment.persistence.model.Dog;
 import org.ithos.assignment.persistence.model.Location;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
